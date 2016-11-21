@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/onethousandsuns/TicTacToe/issues"
   },
-  "homepage": "https://github.com/onethousandsuns/TicTacToe#readme"
+  "homepage": "https://github.com/onethousandsuns/TicTacToe#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "http": "0.0.0"
+  }
 }
