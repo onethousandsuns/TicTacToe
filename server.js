@@ -1,6 +1,7 @@
 var express = require("express");
 var http = require('http');
 var bodyParser = require('body-parser');
+var utils = require('./utils');
 
 var app = express();
 var portNumber = 3000;
@@ -22,7 +23,7 @@ app.use(function (req, res, next) {
     }
     next();
 }, function (req, res, next) {
-    console.log('Request URL:', req.origjbjnjjhgjinalUrl, '\nRequest Type:', req.method, '\nRequest body: ', req.body);
+    console.log('Request URL:', req.originalUrl, '\nRequest Type:', req.method, '\nRequest body: ', req.body);
     next();
 });
 
