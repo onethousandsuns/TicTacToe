@@ -1,0 +1,19 @@
+{
+  "name": "tic-tac-toe",
+  "version": "1.0.0",
+  "description": "tica tac toe game using node js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/onethousandsuns/TicTacToe.git"
+  },
+  "author": "Bochkarev Maxim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/onethousandsuns/TicTacToe/issues"
+  },
+  "homepage": "https://github.com/onethousandsuns/TicTacToe#readme"
+}
