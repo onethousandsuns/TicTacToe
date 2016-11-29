@@ -7,7 +7,6 @@ var GameHandler = (function () {
     const inactiveGameTimeout = 300000;
     const inactiveGameCheckInterval = 10000;
 
-
     setInterval(function() {
         for (var token in games){
             if(games[token].getGameDuration() >= inactiveGameTimeout) {
@@ -17,17 +16,21 @@ var GameHandler = (function () {
         }
     }, inactiveGameCheckInterval);
 
-
     var isGameTokenUsed = function (token) {
-        if (token in games) {
+        if (token in games) { 
             return true;
         }
         return false;
     };
 
-    var isYoursMove = function (gameToken, accessToken) {
-        isYoursMove = !!(((games[gameToken].getAccessTokenUser1() === accessToken) && (games[gameToken].getCurrentMoveMark() === "X")) ||
-        ((games[gameToken].getAccessTokenUser2() === accessToken) && (games[gameToken].getCurrentMoveMark() === "O")));
+    var isCurrentMoveYours = function (gameToken, accessToken) {
+        if(((games[gameToken].getAccessTokenUser1() === accessToken) && (games[gameToken].getCurrentMoveMark() === "X")) ||
+            ((games[gameToken].getAccessTokenUser2() === accessToken) && (games[gameToken].getCurrentMoveMark() === "O"))){
+            return true;
+        }
+        else {
+            return false;
+        }
     };
 
     return {
@@ -39,11 +42,10 @@ var GameHandler = (function () {
                 (games[gameToken].getAccessTokenUser2() !== accessToken)){
                 return {"status" : "error", "message" : "There is no user with current access token"};
             }
-
-            // TODO: you-turn fucntion
+            // TODO: fix getGameField
             return {
                 "status": "ok",
-                "you_turn": "true",
+                "you_turn": isCurrentMoveYours(gameToken, accessToken),
                 "game_duration": games[gameToken].getGameDuration(),
                 "field": games[gameToken].getGameField().toString(),
                 "winner": games[gameToken].getWinnerName()
@@ -57,14 +59,6 @@ var GameHandler = (function () {
             catch (err){
                 console.log('При создании игры возникла ошибка: ', err.message);
                 return {"status" : "error", "message" : err.message};
-            }
-            
-            if(!isGameTokenUsed(gameInstance.getGameToken()))
-            {
-                games[gameInstance.getGameToken()] = gameInstance;
-                return {"status" : "ok", "access_token" : gameInstance.getAccessTokenUser1(), "game_token" : gameInstance.getGameToken()};
-            } else {
-                return "error";
             }
         },
 
@@ -86,26 +80,21 @@ var GameHandler = (function () {
         makeMove: function(gameToken, accessToken, row, col) {
             if (!isGameTokenUsed(gameToken)){
                 return {"status" : "error", "message" : "There is no game with current game token"};
-            } else if ((games[gameToken].getAccessTokenUser1() !== accessToken) ||
+            } else if ((games[gameToken].getAccessTokenUser1() !== accessToken) &&
                 (games[gameToken].getAccessTokenUser2() !== accessToken)){
                 return {"status" : "error", "message" : "There is no user with current access token"};
             }
 
             var markType = "";
-            try{
-
+            try {
                 (accessToken === games[gameToken].getAccessTokenUser1()) ? markType = "X" : markType = "O";
                 games[gameToken].updateGameField(row, col, markType);
-                console.log('Game: ' + gameToken + '- player ' + markType + " -> {" + xcoord + ", " + ycoord + "}");
+                console.log('Game: ' + gameToken + '- player ' + markType + " -> {" + row + ", " + col + "}");
                 return {"status" : "ok"};
             } catch (err){
-                console.log('При осуществдении хода в игре ', gameToken, ' возникла ошибка: ', err.message);
+                console.log('При осуществлении хода в игре ', gameToken, ' возникла ошибка: ', err.message);
                 return {"status" : "error", "message" : err.message};
             }
-        },
-
-        printGameList: function () {
-            console.log(games);
         }
     };
 

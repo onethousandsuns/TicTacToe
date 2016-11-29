@@ -33,7 +33,7 @@ var Game = function(userName, size) {
         }
     };
 
-    var isGameEnded = function(){
+    var isGameFieldHasNoEmptyCells = function(){
         for (i = 0; i < gameFieldSize; i++) {
             for (j = 0; j < gameFieldSize; j++) {
                 if (gameField[i][j] === "?"){
@@ -45,6 +45,7 @@ var Game = function(userName, size) {
     };
     // TODO: is player win the game check
     var isPlayerWinGame = function(markType){
+        return false;
     };
 
 

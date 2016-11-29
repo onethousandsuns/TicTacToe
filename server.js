@@ -25,7 +25,7 @@ app.use(function (req, res, next) {
     }*/
     next();
 }, function (req, res, next) {
-    console.log('Request URL:', req.originalUrl, '\nRequest Type:', req.method, '  Request body: ', req.body);
+    console.log('Requested URL:', req.originalUrl, ', Request Type:', req.method, ' ,Request body:', req.body);
     next();
 });
 
@@ -88,5 +88,5 @@ app.get('/view_game_list', function(req, res, next){
 
 app.use(function(err, req, res, next) {
     console.error(err.stack);
-    res.status(500).send(err.message);
+    res.status(500).send('Internal Server Error');
 });
